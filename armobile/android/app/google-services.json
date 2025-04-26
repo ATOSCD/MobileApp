@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329698478401",
+    "project_id": "atoscd-2",
+    "storage_bucket": "atoscd-2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329698478401:android:cc4f390092d8d1d12c39c0",
+        "android_client_info": {
+          "package_name": "com.example.armobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw01hDo7SRHzVOTwJ3tAQS3zbHFlMHZ1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

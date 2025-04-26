@@ -5,7 +5,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -18,7 +18,7 @@ class _ChatPageState extends State<ChatPage> {
 
   late WebSocketChannel _channel;
   final Dio _dio = Dio();
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   Future<void> getPreviousMessages() async {
     try {
@@ -183,32 +183,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      bottomNavigationBar: ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(16), // 왼쪽 상단 둥글기
-        topRight: Radius.circular(16), // 오른쪽 상단 둥글기
-      ),
-      child: BottomNavigationBar(
-        currentIndex: 0,
-        backgroundColor: const Color(0xFFD9D9D9), // 네브바 배경 색
-        showSelectedLabels: false, // 선택된 아이템의 레이블 숨김
-        showUnselectedLabels: false, // 선택되지 않은 아이템의 레이블 숨김
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset('assets/HomeIcon.png'),
-            label: '', // 레이블 제거
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/SearchIcon.png"),
-            label: '', // 레이블 제거
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('assets/IconPage.png'),
-            label: '', // 레이블 제거
-          ),
-        ],
-      ),
-    ),
+      
     );
     
   }

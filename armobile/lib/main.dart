@@ -1,74 +1,150 @@
 import 'package:flutter/material.dart';
-import 'package:armobile/chat.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() {
+// 로컬 알림 플러그인 인스턴스
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // 로컬 알림 초기화
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    _initFCM();
+  }
+
+  Future<void> _initFCM() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    Dio dio = Dio(); // Dio 인스턴스 생성
+
+    // 알림 권한 요청 (iOS, Android 13 이상 필수)
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      debugPrint('알림 권한 허용됨');
+
+      // FCM 토큰 얻기
+      String? token = await messaging.getToken();
+      try {
+      // POST 요청
+      final response = await dio.post(
+        'http://192.168.1.45:8000/register-token/',
+        data: {
+          'user_id': 'jichan2', // 사용자 ID (예시)
+          'token': token, // FCM 토큰
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        
+      } else {
+        setState(() {
+          debugPrint('Error: ${response.statusCode}');
+        });
+      }
+    } catch (e) {
+      // 에러 메시지 출력
+      setState(() {
+        debugPrint('Error: $e');
+      });
+    }
+
+      // 포그라운드 알림 수신 설정
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        _showLocalNotification(message);
+      });
+
+      // 알림 클릭해서 앱 열었을 때 처리
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        _handleMessage(message);
+      });
+
+      // 앱 종료 상태에서 클릭해서 열었을 때
+      RemoteMessage? initialMessage = await messaging.getInitialMessage();
+      if (initialMessage != null) {
+        _handleMessage(initialMessage);
+      }
+    } else {
+      debugPrint('알림 권한 거부됨');
+    }
+  }
+
+  void _showLocalNotification(RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    if (notification != null && android != null) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel', // 채널 ID
+            'High Importance Notifications', // 채널 이름
+            channelDescription: 'This channel is used for important notifications.',
+            importance: Importance.max,
+            priority: Priority.high,
+            showWhen: true,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    // 알림 클릭해서 앱 열었을 때 원하는 행동 정의
+    debugPrint('알림 클릭함: ${message.data}');
+    // 예를 들어 특정 화면 이동도 가능
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage()));
-            }, child: Text('Chat')),
-          ],
+      home: Scaffold(
+        appBar: AppBar(title: const Text('FCM 알림 예제')),
+        body: const Center(
+          child: Text('알림 대기 중...'),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
