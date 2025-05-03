@@ -156,8 +156,7 @@ class _MyAppState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: const Text('FCM 알림 예제')),
         body: Center(
           child: Column(
@@ -175,7 +174,6 @@ class _MyAppState extends State<HomePage> {
           ),
         ),
         
-      ),
-    );
+      );
   }
 }
