@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'chat.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -25,14 +26,31 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'FCM 알림 예제',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true
+      ),
+      home: const HomePage(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
@@ -141,9 +159,22 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('FCM 알림 예제')),
-        body: const Center(
-          child: Text('알림 대기 중...'),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('FCM 알림을 수신하세요!'),
+              SizedBox(height: 20),
+              TextButton(onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatPage()),
+                );
+              }, child: Text('채팅방으로 이동')),
+            ],
+          ),
         ),
+        
       ),
     );
   }
