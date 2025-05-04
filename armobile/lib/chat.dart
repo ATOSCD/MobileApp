@@ -112,7 +112,7 @@ class _ChatPageState extends State<ChatPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              'assets/AppLogoForLogin.png',
+              'assets/chatting.png',
               width: 100,
               height: 140,
             ),
