@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'chat.dart';
 import 'list.dart';
 import 'log.dart';
+import 'connect.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -192,6 +193,14 @@ class _MyAppState extends State<HomePage> {
               icon: Icons.notifications_none,
               color: Colors.teal,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LogPage())),
+            ),
+            const SizedBox(height: 16),
+            _buildMenuCard(
+              context,
+              title: '환자 연결',
+              icon: Icons.person_add_alt_1,
+              color: Colors.redAccent,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConnectPage())),
             ),
           ],
         ),
