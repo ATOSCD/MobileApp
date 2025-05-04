@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'chat.dart';
+import 'list.dart';
+import 'log.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -157,23 +159,81 @@ class _MyAppState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('FCM 알림 예제')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        title: const Text('FCM 알림 예제'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 1,
+      ),
+      backgroundColor: const Color(0xFFF8F8F8),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            _buildMenuCard(
+              context,
+              title: '채팅방으로 이동',
+              icon: Icons.chat_bubble_outline,
+              color: Colors.deepPurpleAccent,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage())),
+            ),
+            const SizedBox(height: 16),
+            _buildMenuCard(
+              context,
+              title: '상호작용 목록 제어',
+              icon: Icons.sync_alt,
+              color: Colors.indigoAccent,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ListPage())),
+            ),
+            const SizedBox(height: 16),
+            _buildMenuCard(
+              context,
+              title: '알림 목록 보기',
+              icon: Icons.notifications_none,
+              color: Colors.teal,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LogPage())),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuCard(BuildContext context,
+      {required String title, required IconData icon, required Color color, required VoidCallback onTap}) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: color,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
             children: [
-              Text('FCM 알림을 수신하세요!'),
-              SizedBox(height: 20),
-              TextButton(onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatPage()),
-                );
-              }, child: Text('채팅방으로 이동')),
+              Icon(icon, size: 32, color: Colors.white),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, color: Colors.white),
             ],
           ),
         ),
-        
-      );
+      ),
+    );
   }
+
 }
