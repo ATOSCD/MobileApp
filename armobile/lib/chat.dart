@@ -24,7 +24,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       // POST 요청
       final response = await _dio.get(
-        'http://192.168.1.45:8000/get-messages/jichan',
+        'http://192.168.1.89:8000/get-messages/spongebob/',
       );
       if (response.statusCode == 200) {
         final List<dynamic> messages = response.data is String
@@ -57,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     // 웹소켓 채널 초기화
     _channel = WebSocketChannel.connect(
-      Uri.parse('ws://192.168.1.45:8000/ws/chat?user_id=jichan2'),
+      Uri.parse('ws://192.168.1.89:8000/ws/chat?user_id=spongebob'),
     );
 
     //이전 메시지 띄우기
@@ -130,7 +130,7 @@ class _ChatPageState extends State<ChatPage> {
               controller: _scrollController,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final isUser = message['sender'] == 'jichan2';
+                final isUser = message['sender'] == 'spongebob'; 
                 return Align(
                   alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
