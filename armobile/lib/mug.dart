@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'server.dart';
+import 'user_id.dart';
 
 class MugPage extends StatefulWidget {
   const MugPage({super.key});
@@ -24,9 +26,9 @@ class _MugPageState extends State<MugPage> {
   Future<void> _fetchButtonTexts() async {
     try {
       final response = await dio.post(
-        'http://192.168.1.89:8000/get-button-by-category/',
+        'http://$baseUrl/get-button-by-category/',
         data: {
-          'user_id': 'patrick',
+          'user_id': patient,
           'category': '머그컵',
         },
         options: Options(headers: {'Content-Type': 'application/json'}),
@@ -50,9 +52,9 @@ class _MugPageState extends State<MugPage> {
 
     try {
       final response = await dio.post(
-        'http://192.168.1.89:8000/update-button/',
+        'http://$baseUrl/update-button/',
         data: {
-          'user_id': 'patrick',
+          'user_id': patient,
           'button_text': texts,
           'category': '머그컵'
         },

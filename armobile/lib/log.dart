@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'server.dart';
+import 'user_id.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -10,7 +12,7 @@ class LogPage extends StatefulWidget {
 
 class _LogPageState extends State<LogPage> {
   final Dio dio = Dio();
-  final String userId = 'patrick';
+  final String userId = patient;
   late Future<List<dynamic>> notifications;
 
   @override
@@ -20,7 +22,7 @@ class _LogPageState extends State<LogPage> {
   }
 
   Future<List<dynamic>> fetchNotifications() async {
-    final response = await dio.get('http://192.168.1.89:8000/get-notifications/$userId/');
+    final response = await dio.get('http://$baseUrl/get-notifications/$userId/');
     if (response.statusCode == 200) {
       return response.data; // 데이터가 이미 최신순
     } else {

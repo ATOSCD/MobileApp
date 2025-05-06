@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'server.dart';
+import 'user_id.dart';
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});
@@ -28,7 +30,7 @@ class _ConnectPageState extends State<ConnectPage> {
 
     try {
       final response = await dio.post(
-        'http://192.168.1.89:8000/find-patient/',
+        'http://$baseUrl/find-patient/',
         data: {
           'user_id': userId,
           'password': password,
@@ -41,9 +43,9 @@ class _ConnectPageState extends State<ConnectPage> {
       if (response.statusCode == 200 && response.data != null) {
         // 사용자 존재하므로 set-nok 호출
         final setResponse = await dio.post(
-          'http://192.168.1.89:8000/set-nok/',
+          'http://$baseUrl/set-nok/',
           data: {
-            'user_id': 'spongebob',
+            'user_id': protector,
             'nok_id': userId,
           },
           options: Options(headers: {

@@ -7,6 +7,8 @@ import 'chat.dart';
 import 'list.dart';
 import 'log.dart';
 import 'connect.dart';
+import 'server.dart';
+import 'user_id.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -83,9 +85,9 @@ class _MyAppState extends State<HomePage> {
       try {
       // POST 요청
       final response = await dio.post(
-        'http://192.168.1.45:8000/register-token/',
+        'http://$baseUrl/register-token/',
         data: {
-          'user_id': 'jichan2', // 사용자 ID (예시)
+          'user_id': protector, // 사용자 ID (예시)
           'token': token, // FCM 토큰
         },
         options: Options(

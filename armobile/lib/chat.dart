@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
+import 'server.dart';
+import 'user_id.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -24,7 +26,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       // POST 요청
       final response = await _dio.get(
-        'http://192.168.1.89:8000/get-messages/spongebob/',
+        'http://$baseUrl/get-messages/$protector/',
       );
       if (response.statusCode == 200) {
         final List<dynamic> messages = response.data is String
@@ -57,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     // 웹소켓 채널 초기화
     _channel = WebSocketChannel.connect(
-      Uri.parse('ws://192.168.1.89:8000/ws/chat?user_id=spongebob'),
+      Uri.parse('ws://$baseUrl/ws/chat?user_id=$protector'),
     );
 
     //이전 메시지 띄우기
@@ -130,7 +132,7 @@ class _ChatPageState extends State<ChatPage> {
               controller: _scrollController,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final isUser = message['sender'] == 'spongebob'; 
+                final isUser = message['sender'] == protector; 
                 return Align(
                   alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
