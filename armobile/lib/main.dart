@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +20,20 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // 긴 진동 패턴 채널 추가
+  AndroidNotificationChannel warningChannel = AndroidNotificationChannel(
+    'warning_channel', // 채널 ID
+    'Warning Notifications', // 채널 이름
+    description: 'Channel for long vibration warnings',
+    importance: Importance.max,
+    vibrationPattern: Int64List.fromList([500, 1000, 500, 2000]), // 진동 패턴
+    enableVibration: true,
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(warningChannel);
 
   // 로컬 알림 초기화
   const AndroidInitializationSettings initializationSettingsAndroid =
