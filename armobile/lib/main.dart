@@ -9,6 +9,7 @@ import 'log.dart';
 import 'connect.dart';
 import 'server.dart';
 import 'user_id.dart';
+import 'edit_category.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -203,6 +204,17 @@ class _MyAppState extends State<HomePage> {
               icon: Icons.person_add_alt_1,
               color: Colors.redAccent,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConnectPage())),
+            ),
+            const SizedBox(height: 16),
+            _buildMenuCard(
+              context,
+              title: '상호작용 목록 편집',
+              icon: Icons.edit,
+              color: Colors.orangeAccent,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EditCategoryPage()),
+              ),
             ),
           ],
         ),
