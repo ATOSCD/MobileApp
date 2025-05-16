@@ -10,6 +10,7 @@ import 'connect.dart';
 import 'server.dart';
 import 'user_id.dart';
 import 'edit_category.dart';
+import 'package:vibration/vibration.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'FCM 알림 예제',
+      title: '소통 어플리케이션',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true
@@ -136,6 +137,10 @@ class _MyAppState extends State<HomePage> {
     AndroidNotification? android = message.notification?.android;
 
     if (notification != null && android != null) {
+      // 제목이 "⚠️⚠️⚠️"인 경우에만 진동
+      if (notification.title == "⚠️⚠️⚠️") {
+        Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
+      }
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -164,7 +169,7 @@ class _MyAppState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('FCM 알림 예제'),
+        title: const Text('소통 어플리케이션'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 1,
