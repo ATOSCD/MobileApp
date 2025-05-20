@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'user_id.dart';
 import 'server.dart';
 
+
 class EditCategoryPage extends StatefulWidget {
   const EditCategoryPage({super.key});
 
@@ -11,7 +12,7 @@ class EditCategoryPage extends StatefulWidget {
 }
 
 class _EditCategoryPageState extends State<EditCategoryPage> {
-  final String userId = patient;
+  String? get userId => patient;
 
   final List<Map<String, dynamic>> allItems = [
     {'title': '에어컨', 'icon': Icons.ac_unit},
@@ -41,6 +42,14 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   }
 
   Future<void> fetchSelectedCategories() async {
+    if (userId == null) {
+      setState(() {
+        selectedCategories = [];
+        originalSelectedCategories = [];
+        isLoading = false;
+      });
+      return;
+    }
     try {
       final response = await Dio().post(
         'http://$baseUrl/get-selected-category/',
@@ -89,6 +98,12 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (userId == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('상호작용 목록 편집')),
+        body: const Center(child: Text('환자 정보가 없습니다.')),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('상호작용 목록 편집'),

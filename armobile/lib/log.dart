@@ -12,7 +12,7 @@ class LogPage extends StatefulWidget {
 
 class _LogPageState extends State<LogPage> {
   final Dio dio = Dio();
-  final String userId = patient;
+  String? get userId => patient;
   late Future<List<dynamic>> notifications;
 
   @override
@@ -22,6 +22,9 @@ class _LogPageState extends State<LogPage> {
   }
 
   Future<List<dynamic>> fetchNotifications() async {
+    if (userId == null) {
+      return [];
+    }
     final response = await dio.get('http://$baseUrl/get-notifications/$userId/');
     if (response.statusCode == 200) {
       return response.data; // 데이터가 이미 최신순
@@ -32,6 +35,21 @@ class _LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (userId == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('알림 로그', style: TextStyle(fontWeight: FontWeight.bold)),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          elevation: 2,
+        ),
+        body: const Center(
+          child: Text('환자 정보가 없습니다.', style: TextStyle(fontSize: 16)),
+        ),
+        backgroundColor: const Color(0xFFF8F8F8),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('알림 로그', style: TextStyle(fontWeight: FontWeight.bold)),

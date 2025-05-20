@@ -12,6 +12,7 @@ import 'mug.dart';
 import 'thermometer.dart';
 import 'tissue.dart';
 import 'window.dart';
+import 'user_id.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
@@ -34,6 +35,21 @@ class ListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (patient == null) { // protector를 쓴다면 protector == null로 변경
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('사물 목록'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          elevation: 1,
+        ),
+        body: const Center(
+          child: Text('환자 정보가 없습니다.', style: TextStyle(fontSize: 16)),
+        ),
+        backgroundColor: const Color(0xFFF8F8F8),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('사물 목록'),

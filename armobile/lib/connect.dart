@@ -54,9 +54,12 @@ class _ConnectPageState extends State<ConnectPage> {
         );
 
         if (setResponse.statusCode == 200) {
+          final name = setResponse.data['nok_name']; // ✅ 환자 이름 받아오기
           setState(() {
             _resultMessage = '연결에 성공했습니다.';
             _resultColor = Colors.blueAccent;
+            patient = userId;
+            patientName = name;
           });
         } else {
           setState(() {

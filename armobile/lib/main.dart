@@ -12,6 +12,8 @@ import 'server.dart';
 import 'user_id.dart';
 import 'edit_category.dart';
 import 'package:vibration/vibration.dart';
+import 'register_entry.dart';
+import 'start.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -60,7 +62,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true
       ),
-      home: const HomePage(),
+      home: const StartPage(),
     );
   }
 }
@@ -77,6 +79,31 @@ class _MyAppState extends State<HomePage> {
   void initState() {
     super.initState();
     _initFCM();
+    _fetchPatientInfo();
+  }
+
+  Future<void> _fetchPatientInfo() async {
+    if (protector == null) return;
+
+    try {
+      final response = await Dio().post(
+        'http://$baseUrl/get-nok/',
+        data: {'user_id': protector},
+        options: Options(headers: {'Content-Type': 'application/json'}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        patient = data['nok_id'];
+        patientName = data['nok_name'];
+        debugPrint('👤 환자 ID: $patient, 이름: $patientName');
+        setState(() {}); // 필요 시 UI 갱신
+      } else {
+        debugPrint('❌ 환자 정보 요청 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('❌ 오류 발생: $e');
+    }
   }
 
   Future<void> _initFCM() async {
@@ -235,6 +262,14 @@ class _MyAppState extends State<HomePage> {
                 context,
                 MaterialPageRoute(builder: (_) => const EditCategoryPage()),
               ),
+            ),
+            const SizedBox(height: 16),
+            _buildMenuCard(
+              context,
+              title: '회원가입',
+              icon: Icons.app_registration,
+              color: Colors.lightBlueAccent,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterEntryPage())),
             ),
           ],
         ),

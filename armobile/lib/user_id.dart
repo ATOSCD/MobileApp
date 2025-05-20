@@ -1,2 +1,3 @@
-const String protector = 'spongebob';
-const String patient = 'patrick';
+String? protector;
+String? patient;
+String? patientName;
