@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'server.dart';
-import 'user_id.dart ';
+import 'user_id.dart';
 
 class TissuePage extends StatefulWidget {
   const TissuePage({super.key});
