@@ -14,6 +14,7 @@ import 'edit_category.dart';
 import 'package:vibration/vibration.dart';
 import 'register_entry.dart';
 import 'start.dart';
+import 'menupoup.dart';
 
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -215,64 +216,98 @@ class _MyAppState extends State<HomePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 1,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MenuPopupPage()),
+              );
+            },
+          ),
+        ],
       ),
       backgroundColor: const Color(0xFFF8F8F8),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            _buildMenuCard(
-              context,
-              title: '채팅방으로 이동',
-              icon: Icons.chat_bubble_outline,
-              color: Colors.deepPurpleAccent,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage())),
-            ),
-            const SizedBox(height: 16),
-            _buildMenuCard(
-              context,
-              title: '상호작용 목록 제어',
-              icon: Icons.sync_alt,
-              color: Colors.indigoAccent,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ListPage())),
-            ),
-            const SizedBox(height: 16),
-            _buildMenuCard(
-              context,
-              title: '알림 목록 보기',
-              icon: Icons.notifications_none,
-              color: Colors.teal,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LogPage())),
-            ),
-            const SizedBox(height: 16),
-            _buildMenuCard(
-              context,
-              title: '환자 연결',
-              icon: Icons.person_add_alt_1,
-              color: Colors.redAccent,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConnectPage())),
-            ),
-            const SizedBox(height: 16),
-            _buildMenuCard(
-              context,
-              title: '상호작용 목록 편집',
-              icon: Icons.edit,
-              color: Colors.orangeAccent,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EditCategoryPage()),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView(
+                children: [
+                  _buildMenuCard(
+                    context,
+                    title: '채팅방으로 이동',
+                    icon: Icons.chat_bubble_outline,
+                    color: Colors.deepPurpleAccent,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage())),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildMenuCard(
+                    context,
+                    title: '상호작용 목록 제어',
+                    icon: Icons.sync_alt,
+                    color: Colors.indigoAccent,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ListPage())),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildMenuCard(
+                    context,
+                    title: '알림 목록 보기',
+                    icon: Icons.notifications_none,
+                    color: Colors.teal,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LogPage())),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildMenuCard(
+                    context,
+                    title: '상호작용 목록 편집',
+                    icon: Icons.edit,
+                    color: Colors.redAccent,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const EditCategoryPage()),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            _buildMenuCard(
-              context,
-              title: '회원가입',
-              icon: Icons.app_registration,
-              color: Colors.lightBlueAccent,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterEntryPage())),
+          ),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.grey[300]!)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withAlpha((0.2 * 255).toInt()),  // 최신 코드 (정확한 alpha 값)
+                  blurRadius: 5,
+                  offset: const Offset(0, -2),
+                ),
+              ],
             ),
-          ],
-        ),
+            child: Row(
+              children: [
+                const Icon(Icons.info_outline, color: Colors.indigo),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    (patientName != null && patientName!.isNotEmpty)
+                        ? '현재 $patientName 님과 연결되어 있습니다.'
+                        : '현재 환자와 연결되어 있지 않습니다.',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

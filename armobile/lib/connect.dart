@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'server.dart';
 import 'user_id.dart';
+import 'main.dart';
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});
@@ -46,7 +47,7 @@ class _ConnectPageState extends State<ConnectPage> {
           'http://$baseUrl/set-nok/',
           data: {
             'user_id': protector,
-            'nok_id': userId,
+            'nok_id': userId, //환자 id
           },
           options: Options(headers: {
             'Content-Type': 'application/json',
@@ -55,13 +56,16 @@ class _ConnectPageState extends State<ConnectPage> {
 
         if (setResponse.statusCode == 200) {
           final name = setResponse.data['nok_name']; // ✅ 환자 이름 받아오기
-          setState(() {
-            _resultMessage = '연결에 성공했습니다.';
-            _resultColor = Colors.blueAccent;
-            patient = userId;
-            patientName = name;
-          });
-        } else {
+          patient = userId;
+          patientName = name;
+
+          // 홈 화면으로 이동 (현재 페이지 종료하고 새로 시작)
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomePage()),
+          );
+        }
+        else {
           setState(() {
             _resultMessage = '연결에 실패했습니다.';
             _resultColor = Colors.redAccent;

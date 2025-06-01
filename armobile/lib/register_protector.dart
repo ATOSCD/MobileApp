@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'server.dart'; // baseUrl 정의되어 있다고 가정
+import 'start.dart'; // StartPage 정의되어 있다고 가정
 
 class RegisterProtectorPage extends StatefulWidget {
   const RegisterProtectorPage({super.key});
@@ -49,7 +50,11 @@ class _RegisterProtectorPageState extends State<RegisterProtectorPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('✅ 회원가입에 성공했습니다.')),
         );
-        Navigator.pop(context);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const StartPage()),
+          (Route<dynamic> route) => false, // 모든 이전 스택 제거
+        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

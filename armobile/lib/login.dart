@@ -42,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200 && response.data.toString() == '1') {
         protector = userId; // ✅ 로그인한 보호자 ID 저장
+        
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const HomePage()),
