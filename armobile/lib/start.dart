@@ -14,7 +14,7 @@ class StartPage extends StatelessWidget {
           const Spacer(flex: 2),
           const Center(
             child: Text(
-              '소통 어플리케이션',
+              'UtopiAR',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,

@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '소통 어플리케이션',
+      title: 'UtopiAR',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true
@@ -212,7 +212,7 @@ class _MyAppState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('소통 어플리케이션'),
+        title: const Text('UtopiAR'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 1,
