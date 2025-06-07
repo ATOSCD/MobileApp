@@ -7,12 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'chat.dart';
 import 'list.dart';
 import 'log.dart';
-import 'connect.dart';
+//import 'connect.dart';
 import 'server.dart';
 import 'user_id.dart';
 import 'edit_category.dart';
 import 'package:vibration/vibration.dart';
-import 'register_entry.dart';
+//import 'register_entry.dart';
 import 'start.dart';
 import 'menupoup.dart';
 

@@ -102,8 +102,7 @@ class _DoorPageState extends State<DoorPage> {
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   ...List.generate(4, (index) {
                     return Padding(

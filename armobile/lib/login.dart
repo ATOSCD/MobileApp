@@ -72,12 +72,12 @@ class _LoginPageState extends State<LoginPage> {
         elevation: 1,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 30),
+            const SizedBox(height: 22),
             const Text(
               '환영합니다 👋',
               textAlign: TextAlign.center,
@@ -89,11 +89,11 @@ class _LoginPageState extends State<LoginPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, color: Colors.black54),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 28),
             _buildTextField(_idController, '아이디', Icons.person_outline),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             _buildTextField(_pwController, '비밀번호', Icons.lock_outline, obscure: true),
-            const SizedBox(height: 40),
+            const SizedBox(height: 28),
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _login,
               icon: const Icon(Icons.login, color: Colors.white),
