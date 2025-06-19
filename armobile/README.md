@@ -1,16 +1,15 @@
-# armobile
+# UtopiAR
 
-A new Flutter project.
+## Build & Run
 
-## Getting Started
+1. Flutter SDK를 설치하세요.  
+   [Flutter 설치 가이드](https://docs.flutter.dev/get-started/install)
 
-This project is a starting point for a Flutter application.
+2. 의존성 패키지를 설치하세요.
+   ```sh
+   flutter pub get
+   ```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. 앱을 빌드 및 실행하세요.
+   ```sh
+   flutter
